@@ -90,9 +90,10 @@ int main(void)
 			wait(NULL);
 
 		/* printf("$ "); */
+		free(cmd_cpy), free_argv(argv);
 	}
 
-	free(cmd), free(cmd_cpy), free_argv(argv);
+	free(cmd);
 	cmd = NULL, cmd_cpy = NULL;
 	return (0);
 }
