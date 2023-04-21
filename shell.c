@@ -38,7 +38,7 @@ int main(void)
 	int i = 0, pid, argc;
 	size_t n;
 
-	printf("$ ");
+	/* printf("$ "); */
 
 	while (getline(&cmd, &n, stdin) != -1)
 	{
@@ -89,7 +89,7 @@ int main(void)
 		else
 			wait(NULL);
 
-		printf("$ ");
+		/* printf("$ "); */
 	}
 
 	free(cmd), free(cmd_cpy), free_argv(argv);
