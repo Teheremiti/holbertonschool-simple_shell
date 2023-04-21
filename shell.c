@@ -33,7 +33,7 @@ void free_argv(char **argv)
 int main(void)
 {
 	char *cmd = NULL, *cmd_cpy = NULL, *token = NULL;
-	char *sep = " ., \t\n";
+	char *sep = " ,\t\n";
 	char **argv = NULL;
 	int i = 0, pid, argc;
 	size_t n;
@@ -51,11 +51,9 @@ int main(void)
 			token = strtok(NULL, sep);
 			argc++;
 		}
+
 		if (argc == 0)
-		{
-			printf("$ ");
 			continue;
-		}
 
 		argv = malloc(sizeof(char *) * (argc + 1));
 
