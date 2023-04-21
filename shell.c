@@ -53,7 +53,10 @@ int main(void)
 		}
 
 		if (argc == 0)
+		{
+			free(cmd_cpy);
 			continue;
+		}
 
 		argv = malloc(sizeof(char *) * (argc + 1));
 
