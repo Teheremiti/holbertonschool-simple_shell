@@ -7,8 +7,12 @@
 #include <string.h>
 
 extern char **environ;
-void free_argv(char **);
+char **arrstrdup(char **arr);
+int get_argc(char *);
+char **get_argv(char *, int);
+void free_arr(char **);
 char *_getenv(const char *);
-void _which(const char *);
+char *_which(char *);
+int execute(int, char *, char *, char **);
 
 #endif
