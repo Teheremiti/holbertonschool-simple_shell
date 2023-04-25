@@ -48,41 +48,44 @@ char *_which(char *filename)
 	char *path, *path_cpy, *file_path, *dir;
 	struct stat status;
 
-	path = _getenv("PATH");
-	if (path == NULL)
+	if (filename[0] == '/' || filename[0] == '.')
 	{
-		fprintf(stderr, "PATH environment variable not found\n");
-		exit(1);
+		printf("filename: %s\n", filename);
+		file_path = strdup(filename);
+	}
+
+	path = _getenv("PATH");
+	if (path == NULL && (filename[0] != '/' && filename[0] != '.'))
+	{
+		fprintf(stderr, "./hsh: :1 %s: not found\n", filename);
+		exit(127);
 	}
 
 	path_cpy = strdup(path), free(path);
 	dir = strtok(path_cpy, ":");
 	while (dir)
 	{
-		int flag_stat, flag_access;
-
-		if (filename[0] == '/' || filename[0] == '.')
-			file_path = strdup(filename);
-		else
+		if (filename[0] != '/' && filename[0] != '.')
 		{
 			file_path = malloc(512);
 			sprintf(file_path, "%s/%s", dir, filename);
 		}
 
-		flag_stat = stat(file_path, &status);
-		flag_access = access(file_path, X_OK);
-
-		if (flag_stat == 0 && flag_access == 0)
+		if (stat(file_path, &status) == 0 && access(file_path, X_OK) == 0)
 		{
 			free(path_cpy);
 			return (file_path);
 		}
 
-		free(file_path), file_path = NULL;
+		if (filename[0] != '/' && filename[0] != '.')
+			free(file_path);
+
 		dir = strtok(NULL, ":");
 	}
-
-	printf("./hsh: 1: %s: not found\n", filename);
+	fprintf(stderr, "./hsh: 1: %s: not found\n", filename);
 	free(path_cpy);
+	if (filename[0] == '/' || filename[0] == '.')
+		free(file_path);
+
 	return (NULL);
 }
