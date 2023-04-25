@@ -3,29 +3,6 @@
 #include "main.h"
 
 /**
- * free_arr - Free an array of strings
- *
- * @arr: Array to free
- *
- * Return: (void)
- */
-
-void free_arr(char **arr)
-{
-	int i = 0;
-
-	for (; arr[i] != NULL; i++)
-	{
-		free(arr[i]);
-		arr[i] = NULL;
-	}
-
-	free(arr);
-	arr = NULL;
-}
-
-
-/**
  * _getenv - Get the value of a environment variable if it exists
  *
  * @name: Variable to check
