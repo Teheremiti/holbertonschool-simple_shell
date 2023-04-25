@@ -49,10 +49,7 @@ char *_which(char *filename)
 	struct stat status;
 
 	if (filename[0] == '/' || filename[0] == '.')
-	{
-		printf("filename: %s\n", filename);
 		file_path = strdup(filename);
-	}
 
 	path = _getenv("PATH");
 	if (path == NULL && (filename[0] != '/' && filename[0] != '.'))
