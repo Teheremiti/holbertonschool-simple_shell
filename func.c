@@ -65,7 +65,7 @@ char *_which(char *filename)
 			file_path = strdup(filename);
 		else
 		{
-			file_path = malloc(sizeof(dir) + sizeof(filename) + 3);
+			file_path = malloc(512);
 			sprintf(file_path, "%s/%s", dir, filename);
 		}
 
@@ -78,10 +78,11 @@ char *_which(char *filename)
 			return (file_path);
 		}
 
+		free(file_path), file_path = NULL;
 		dir = strtok(NULL, ":");
 	}
 
 	printf("%s: command not found\n", filename);
-	free(filename), free(path_cpy);
+	free(path_cpy);
 	return (NULL);
 }

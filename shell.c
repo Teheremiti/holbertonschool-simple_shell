@@ -27,6 +27,7 @@ int main(void)
 		}
 
 		argv = get_argv(cmd_cpy, argc);
+		free(cmd);
 		cmd = _which(argv[0]);
 		if (cmd == NULL)
 		{
