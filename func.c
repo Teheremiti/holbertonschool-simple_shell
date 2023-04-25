@@ -61,7 +61,7 @@ char *_which(char *filename)
 	{
 		int flag_stat, flag_access;
 
-		if (filename[0] == '/')
+		if (filename[0] == '/' || filename[0] == '.')
 			file_path = strdup(filename);
 		else
 		{
@@ -82,7 +82,7 @@ char *_which(char *filename)
 		dir = strtok(NULL, ":");
 	}
 
-	printf("%s: command not found\n", filename);
+	printf("./hsh: 1: %s: not found\n", filename);
 	free(path_cpy);
 	return (NULL);
 }
