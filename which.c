@@ -76,6 +76,6 @@ char *_which(char *file)
 	}
 
 	fprintf(stderr, "./hsh: 1: %s: not found\n", file);
-	free(file), free(pathCopy), file = NULL,  pathCopy = NULL;
+	free(pathCopy), pathCopy = NULL;
 	return (NULL);
 }
