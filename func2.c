@@ -40,7 +40,7 @@ char **get_argv(char *cmd, int argc)
 	char *sep = " ,\t\n";
 	int i = 0;
 	char *token = strtok(cmd, sep);
-	char **argv = malloc(sizeof(char *) * (argc + 1));
+	char **argv = calloc(argc + 1, sizeof(char *));
 
 	while (token)
 	{
@@ -80,19 +80,18 @@ void free_arr(char **arr)
  * execute - Execute the command in the child process
  *
  * @pid: Pid of process
- * @cmd: Input from command line
- * @cmd_cpy: Command line copy
+ * @cmd: Command to execute
  * @argv: Argument vector
- * *
+ *
  * Return: -1 on failure, otherwise nothing
  */
 
-int execute(int pid, char *cmd, char *cmd_cpy, char **argv)
+int execute(int pid, char *cmd, char **argv)
 {
 	if (pid == -1)
 	{
 		perror("Error fork()");
-		free(cmd), free(cmd_cpy), free_arr(argv);
+		free_arr(argv);
 		return (-1);
 	}
 
@@ -101,7 +100,7 @@ int execute(int pid, char *cmd, char *cmd_cpy, char **argv)
 		if (execve(cmd, argv, environ) == -1)
 		{
 			perror("Error execve()");
-			free(cmd), free(cmd_cpy), free_arr(argv);
+			free_arr(argv);
 			return (-1);
 		}
 	}
