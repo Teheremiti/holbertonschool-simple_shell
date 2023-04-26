@@ -10,9 +10,8 @@
 #include <sys/wait.h>
 
 extern char **environ;
-char **arrstrdup(char **arr);
 int get_argc(char *);
-char **get_argv(char *, int);
+char **get_argv(char *);
 void free_arr(char **);
 char *_getenv(const char *);
 char *_which(char *);
