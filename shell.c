@@ -37,10 +37,14 @@ int main(void)
 		pid = fork();
 		execute(pid, file, argv);
 
-		free_arr(argv);
+		if (argv[0][0] != '/' && argv[0][0] != '.')
+			free_arr(argv);
+		else
+			free(argv);
+
+		free(file), file = NULL;
 	}
 
-	free(cmd);
-	cmd = NULL, cmd_cpy = NULL;
+	free(cmd), free(file);
 	return (0);
 }

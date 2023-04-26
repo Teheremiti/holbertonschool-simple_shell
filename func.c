@@ -1,88 +1,111 @@
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/wait.h>
 #include "main.h"
 
 /**
- * _getenv - Get the value of a environment variable if it exists
+ * get_argc - Get the number of arguments in the command line
  *
- * @name: Variable to check
+ * @cmd: Command line
  *
- * Return: The value of the variable if it exists, otherwise NULL
+ * Return: The number of arguments in cmd
  */
 
-char *_getenv(const char *name)
+int get_argc(char *cmd)
 {
-	int i;
-	char *token;
+	char *sep = " ,\t\n";
+	char *token = NULL;
+	int argc = 0;
 
-	for (i = 0; environ[i]; i++)
+	token = strtok(cmd, sep);
+	while (token)
 	{
-		char *env_cpy = strdup(environ[i]);
-
-		token = strtok(env_cpy, "=");
-		if (strcmp(token, name) == 0)
-		{
-			char *result;
-
-			token = strtok(NULL, "\0");
-			result = strdup(token);
-			free(env_cpy);
-			return (result);
-		}
-		free(env_cpy);
+		token = strtok(NULL, sep);
+		argc++;
 	}
-	return (NULL);
+
+	return (argc);
 }
 
 
 /**
- * _which - Look for files in the current PATH
+ * get_argv - Get argument vector
  *
- * @filename: File to look for
+ * @cmd: Input to split
+ * @argc: Argument count
  *
- * Return: The path of the file if it exists, otherwise NULL
+ * Return: Split arguments
  */
 
-char *_which(char *filename)
+char **get_argv(char *cmd, int argc)
 {
-	char *path, *path_cpy, *file_path, *dir;
-	struct stat status;
+	char *sep = " ,\t\n";
+	int i = 0;
+	char *token = strtok(cmd, sep);
+	char **argv = calloc(argc + 1, sizeof(char *));
 
-	if (filename[0] == '/' || filename[0] == '.')
-		file_path = strdup(filename);
-
-	path = _getenv("PATH");
-	if (path == NULL && (filename[0] != '/' && filename[0] != '.'))
+	while (token)
 	{
-		fprintf(stderr, "./hsh: :1 %s: not found\n", filename);
-		exit(127);
+		argv[i] = strdup(token);
+		token = strtok(NULL, sep);
+		i++;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
+
+/**
+ * free_arr - Free an array of strings
+ *
+ * @arr: Array to free
+ *
+ * Return: (void)
+ */
+
+void free_arr(char **arr)
+{
+	int i = 0;
+
+	for (; arr[i] != NULL; i++)
+	{
+		free(arr[i]);
+		arr[i] = NULL;
 	}
 
-	path_cpy = strdup(path), free(path);
-	dir = strtok(path_cpy, ":");
-	while (dir)
+	free(arr);
+	arr = NULL;
+}
+
+
+/**
+ * execute - Execute the command in the child process
+ *
+ * @pid: Pid of process
+ * @cmd: Command to execute
+ * @argv: Argument vector
+ *
+ * Return: -1 on failure, otherwise nothing
+ */
+
+int execute(int pid, char *cmd, char **argv)
+{
+	if (pid == -1)
 	{
-		if (filename[0] != '/' && filename[0] != '.')
-		{
-			file_path = malloc(512);
-			sprintf(file_path, "%s/%s", dir, filename);
-		}
-
-		if (stat(file_path, &status) == 0 && access(file_path, X_OK) == 0)
-		{
-			free(path_cpy);
-			return (file_path);
-		}
-
-		if (filename[0] != '/' && filename[0] != '.')
-			free(file_path);
-
-		dir = strtok(NULL, ":");
+		perror("Error fork()");
+		free_arr(argv);
+		return (-1);
 	}
-	fprintf(stderr, "./hsh: 1: %s: not found\n", filename);
-	free(path_cpy);
-	if (filename[0] == '/' || filename[0] == '.')
-		free(file_path);
 
-	return (NULL);
+	if (pid == 0)
+	{
+		if (execve(cmd, argv, environ) == -1)
+		{
+			perror("Error execve()");
+			free_arr(argv);
+			return (-1);
+		}
+	}
+	else
+		wait(NULL);
+
+	return (-1);
 }
