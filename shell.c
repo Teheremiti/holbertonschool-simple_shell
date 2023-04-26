@@ -3,7 +3,7 @@
 /**
  * main - Simple shell
  *
- * Return: 0 on SUCCESS, otherwise 1
+ * Return: 0 on SUCCESS, otherwise nothing
  */
 
 int main(void)

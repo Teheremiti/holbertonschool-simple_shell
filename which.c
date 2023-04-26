@@ -23,6 +23,11 @@ char *_getenv(const char *name)
 			char *result;
 
 			token = strtok(NULL, "\0");
+			if (token == NULL)
+			{
+				free(env_cpy);
+				return (NULL);
+			}
 			result = strdup(token);
 			free(env_cpy);
 			return (result);
@@ -53,8 +58,8 @@ char *_which(char *file)
 	env_path = _getenv("PATH");
 	if (env_path == NULL)
 	{
-		fprintf(stderr, "./hsh: :1 %s: not found\n", file);
-		exit(127);
+		fprintf(stderr, "./hsh: 1: %s: not found\n", file);
+		return (NULL);
 	}
 
 	pathCopy = strdup(env_path);
