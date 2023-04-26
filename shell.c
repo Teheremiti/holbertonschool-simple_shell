@@ -20,7 +20,7 @@ int main(void)
 		argc = get_argc(cmd_cpy);
 		if (argc == 0)
 		{
-			free(cmd), free(cmd_cpy);
+			free(cmd_cpy);/*free(cmd),*/
 			continue;
 		}
 
