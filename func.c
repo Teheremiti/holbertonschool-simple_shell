@@ -1,4 +1,3 @@
-#include <sys/wait.h>
 #include "main.h"
 
 /**
@@ -40,7 +39,7 @@ char **get_argv(char *cmd, int argc)
 	char *sep = " ,\t\n";
 	int i = 0;
 	char *token = strtok(cmd, sep);
-	char **argv = calloc(argc + 1, sizeof(char *));
+	char **argv = malloc((argc + 1) * sizeof(char *));
 
 	while (token)
 	{
@@ -73,6 +72,28 @@ void free_arr(char **arr)
 
 	free(arr);
 	arr = NULL;
+}
+
+
+/**
+ * free_argv - Free argv with special cases
+ *
+ * @argc: Argument count
+ * @argv: Argument vector to free
+ *
+ * return: (void)
+ */
+
+void free_argv(int argc, char **argv)
+{
+	if (argc > 1 && (argv[0][0] != '/' && argv[0][0] != '.'))
+		free_arr(argv);
+
+	else if (argc == 1 && (argv[0][0] != '/' && argv[0][0] != '.'))
+		free(argv[0]), free(argv);
+
+	else
+		free(argv[1]), free(argv);
 }
 
 

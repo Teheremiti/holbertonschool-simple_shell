@@ -15,12 +15,14 @@ int main(void)
 
 	while (getline(&cmd, &n, stdin) != -1)
 	{
-		cmd_cpy = strdup(cmd);
+		if (strcmp(cmd, "exit\n") == 0)
+			free(cmd), exit(0);
 
+		cmd_cpy = strdup(cmd);
 		argc = get_argc(cmd_cpy);
 		if (argc == 0)
 		{
-			free(cmd_cpy);/*free(cmd),*/
+			free(cmd_cpy);
 			continue;
 		}
 
@@ -29,23 +31,15 @@ int main(void)
 
 		file = _which(argv[0]);
 		if (file == NULL)
-		{
-			free_arr(argv);
-			exit(127);
-		}
+			free_arr(argv), exit(127);
 
 		pid = fork();
 		execute(pid, file, argv);
 
-		if (argc > 1 && (argv[0][0] != '/' && argv[0][0] != '.'))
-			free_arr(argv);
-		else if (argc == 1 && (argv[0][0] != '/' && argv[0][0] != '.'))
-			free(argv[0]), free(argv);
-		else
-			free(argv[1]), free(argv);
-
+		free_argv(argc, argv);
 		free(file), file = NULL;
 	}
+
 	free(cmd), free(file);
 	return (0);
 }
