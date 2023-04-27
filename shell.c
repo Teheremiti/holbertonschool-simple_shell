@@ -3,7 +3,7 @@
 /**
  * main - Simple shell
  *
- * Return: 0 on SUCCESS, otherwise nothing
+ * Return: 0 on SUCCESS, otherwise nothing  and exits with appropriate status
  */
 
 int main(void)
@@ -16,14 +16,15 @@ int main(void)
 	while (getline(&cmd, &n, stdin) != -1)
 	{
 		if (strcmp(cmd, "exit\n") == 0)
+			free(cmd), exit(flag);
+		if (strcmp(cmd, "env\n") == 0)
 		{
-			free(cmd);
-			if (flag != 0)
-				exit(flag);
-			exit(0);
+			pid = fork(), _env(pid);
+			continue;
 		}
-
 		cmd_cpy = strdup(cmd);
+		if (cmd_cpy == NULL)
+			free(cmd), printOops();
 		argc = get_argc(cmd_cpy);
 		if (argc == 0)
 		{
@@ -41,8 +42,7 @@ int main(void)
 		pid = fork();
 		flag = execute(pid, file, argv);
 
-		free_argv(argc, argv);
-		free(file), file = NULL;
+		free_argv(argc, argv), free(file), file = NULL;
 	}
 
 	free(cmd), free(file);

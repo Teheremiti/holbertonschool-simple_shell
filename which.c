@@ -17,6 +17,12 @@ char *_getenv(const char *name)
 	{
 		char *env_cpy = strdup(environ[i]);
 
+		if (env_cpy == NULL)
+		{
+			printOops();
+			return (NULL);
+		}
+
 		token = strtok(env_cpy, "=");
 		if (strcmp(token, name) == 0)
 		{
@@ -28,7 +34,15 @@ char *_getenv(const char *name)
 				free(env_cpy);
 				return (NULL);
 			}
+
 			result = strdup(token);
+			if (result == NULL)
+			{
+				printOops();
+				free(env_cpy);
+				return (NULL);
+			}
+
 			free(env_cpy);
 			return (result);
 		}
@@ -43,7 +57,7 @@ char *_getenv(const char *name)
  *
  * @file: Name of the file to look for
  *
- * Return: The path to the file if it exists, otherwise nothing
+ * Return: The path to the file if it exists, otherwise NULL
  */
 
 char *_which(char *file)
@@ -63,6 +77,12 @@ char *_which(char *file)
 	}
 
 	pathCopy = strdup(env_path);
+	if (pathCopy == NULL)
+	{
+		printOops();
+		return (NULL);
+	}
+
 	free(env_path), env_path = NULL;
 	dir = strtok(pathCopy, ":");
 	while (dir)
@@ -79,8 +99,49 @@ char *_which(char *file)
 		free(filepath), filepath = NULL;
 		dir = strtok(NULL, ":");
 	}
-
 	fprintf(stderr, "./hsh: 1: %s: not found\n", file);
 	free(pathCopy), pathCopy = NULL;
 	return (NULL);
+}
+
+
+/**
+ * _env - env built-in
+ *
+ * @pid: Id of the calling process
+ *
+ * Return: -1 on failure, otherwise 0
+ */
+
+int _env(int pid)
+{
+	char *argv[] = {"/usr/bin/env", NULL};
+	int status;
+
+	if (pid == -1)
+		return (-1);
+
+	if (pid == 0)
+	{
+		if (execve(argv[0], argv, environ) == -1)
+			return (-1);
+	}
+
+	else
+		wait(&status);
+
+	return (0);
+}
+
+
+/**
+ * printOops - Print an error message after a failed malloc
+ *
+ * Return: (void)
+ */
+
+void printOops(void)
+{
+	fprintf(stderr, "Oops, something went wrong :(\nPlease try again\n");
+	exit(98);
 }
