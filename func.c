@@ -104,14 +104,15 @@ void free_argv(int argc, char **argv)
  * @cmd: Command to execute
  * @argv: Argument vector
  *
- * Return: -1 on failure, otherwise nothing
+ * Return: -1 on failure, otherwise the exit status of the command ran
  */
 
 int execute(int pid, char *cmd, char **argv)
 {
+	int status;
+
 	if (pid == -1)
 	{
-		perror("Error fork()");
 		free_arr(argv);
 		return (-1);
 	}
@@ -120,13 +121,16 @@ int execute(int pid, char *cmd, char **argv)
 	{
 		if (execve(cmd, argv, environ) == -1)
 		{
-			perror("Error execve()");
 			free_arr(argv);
 			return (-1);
 		}
 	}
 	else
-		wait(NULL);
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+	}
 
-	return (-1);
+	return (0);
 }

@@ -10,13 +10,18 @@ int main(void)
 {
 	char *cmd = NULL, *cmd_cpy = NULL, *file = NULL;
 	char **argv = NULL;
-	int pid, argc;
+	int pid, argc, flag = 0;
 	size_t n;
 
 	while (getline(&cmd, &n, stdin) != -1)
 	{
 		if (strcmp(cmd, "exit\n") == 0)
-			free(cmd), exit(0);
+		{
+			free(cmd);
+			if (flag != 0)
+				exit(flag);
+			exit(0);
+		}
 
 		cmd_cpy = strdup(cmd);
 		argc = get_argc(cmd_cpy);
@@ -34,7 +39,7 @@ int main(void)
 			free_arr(argv), exit(127);
 
 		pid = fork();
-		execute(pid, file, argv);
+		flag = execute(pid, file, argv);
 
 		free_argv(argc, argv);
 		free(file), file = NULL;
