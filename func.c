@@ -48,7 +48,6 @@ char **get_argv(char *cmd, int argc)
 		{
 			free_arr(argv);
 			printOops();
-			exit(98);
 		}
 
 		token = strtok(NULL, sep);

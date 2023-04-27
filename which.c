@@ -18,10 +18,7 @@ char *_getenv(const char *name)
 		char *env_cpy = strdup(environ[i]);
 
 		if (env_cpy == NULL)
-		{
 			printOops();
-			return (NULL);
-		}
 
 		token = strtok(env_cpy, "=");
 		if (strcmp(token, name) == 0)
@@ -38,9 +35,8 @@ char *_getenv(const char *name)
 			result = strdup(token);
 			if (result == NULL)
 			{
-				printOops();
 				free(env_cpy);
-				return (NULL);
+				printOops();
 			}
 
 			free(env_cpy);
@@ -78,10 +74,7 @@ char *_which(char *file)
 
 	pathCopy = strdup(env_path);
 	if (pathCopy == NULL)
-	{
-		printOops();
-		return (NULL);
-	}
+		free(env_path), printOops();
 
 	free(env_path), env_path = NULL;
 	dir = strtok(pathCopy, ":");
