@@ -87,7 +87,7 @@ void free_arr(char **arr)
  * @argc: Argument count
  * @argv: Argument vector to free
  *
- * return: (void)
+ * Return: (void)
  */
 
 void free_argv(int argc, char **argv)
