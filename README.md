@@ -43,6 +43,7 @@ Here is a brief overview of the files in this repository:
 
 ## Flowchart
 
+![Flowchart drawio](https://user-images.githubusercontent.com/124586557/235101592-57d5f073-7b22-47b9-8a52-41f8afd26f54.png)
 
 
 ## AUTHORS
