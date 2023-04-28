@@ -29,7 +29,8 @@ The shell also supports some built-in commands, such as `exit`.
 
 ### Built-in Commands
 
--   `exit`: Exit the shell. Usage: `exit` (note that this built-in does not handle the status)
+-   `exit`: Exit the shell. Usage: `exit` (note that this built-in does not handle arguments).
+-   `env` : Print the current environnment. Usage `env`.
 
 ## Files
 
@@ -37,9 +38,8 @@ Here is a brief overview of the files in this repository:
 
 -   `main.h`: Header file containing function prototypes and macros.
 -   `func.c`: Helper functions for the main program.
--   `which.c`: Additional functions for the main program
--   `shell.c`: Main program file
-
+-   `which.c`: Additional functions for the main program.
+-   `shell.c`: Main program file.
 
 ## Flowchart
 
