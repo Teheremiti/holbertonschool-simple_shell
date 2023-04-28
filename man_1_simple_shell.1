@@ -1,0 +1,45 @@
+.TH "simple_shell" "1" "28 April 2023" "Holberton School Project"
+.SH NAME
+hsh \- A simple UNIX command line interpreter
+.SH SYNOPSIS
+.B ./hsh
+.SH FILES
+main.h \- Includes libraries and functions prototypes
+.br
+func.c \- Helpers functions for the main program
+.br
+which.c \- Additional functions for the program
+.br
+shell.c \- Main program file
+.SH DESCRIPTION
+The hsh is a UNIX command interpreter that reads user commands from the standard input and executes them. The hsh program has been designed to be similar in functionality to the standard shell, sh. The hsh program includes functionality such as parsing command lines, splitting commands into separate arguments, executing commands, and handling errors.
+.SH OPTIONS
+This program doesn't have any options.
+.SH COMMANDS
+The simple_shell can execute any command that is available in the PATH. The following built-in commands are supported:
+- `exit`: Exit the shell. Usage: `exit` (note that this built-in does not handle arguments).
+- `env`: Print the current environnment. Usage `env`.
+.SH SEE ALSO
+execve(2), fork(2), wait(2), strtok(3), stat(2), access(2), environ(7).
+.SH DIAGNOSTICS
+Upon any error, a message will be printed to the standard error output.
+.SH EXAMPLES
+To run the hsh, navigate to the directory containing the program and type "./hsh". Once inside the shell, you can execute any command that is available in the PATH.
+.br
+To exit the shell, run `exit`.
+.br
+	root$ ./hsh
+	$ pwd
+	/working_dir
+	$ ls
+	file1 file2 file3 ...
+	$ echo cisfun
+	cisfun
+	$ exit
+	root$
+
+.SH REPORTING BUGS
+Report any bugs to 6007@holbertonstudents.com and 6004@holbertonstudents.com
+
+.SH COPYRIGHT
+This is a free software, you are free to change and redistribute it.
