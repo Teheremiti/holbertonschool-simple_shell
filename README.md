@@ -5,9 +5,13 @@ This is a simple shell implementation that can execute commands from the command
 
 ## Installation
 
-1.  Clone the repository from [https://github.com/Teheremiti/holbertonschool-simple_shell.git](https://github.com/yourusername/simple_shell)
+1.  Clone the repository from [https://github.com/Teheremiti/holbertonschool-simple_shell.git](https://github.com/Teheremiti/holbertonschool-simple_shell.git)
 2.  Compile the program using `gcc -Wall -Werror -Wextra -pedantic *.c -o hsh`
 3.  Run the program using `./hsh`
+
+## Man Page
+
+To display the [man page](https://github.com/Teheremiti/holbertonschool-simple_shell/blob/master/man_1_simple_shell.1), simply run the command `man ./man_1_simple_shell.1`.
 
 ## Usage
 
